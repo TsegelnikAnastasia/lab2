@@ -39,10 +39,11 @@ void TestFen() {
 		long long expected = 0;
 		long long resultRec = withRecursive(n);
 		long long resultIter = Iterative(n);
-		assert(resultRec == expected); 
-		cout << "  Рекурсия: " << resultRec << " ✓" << endl;
+		assert(resultRec == expected);
+		cout << "n=0" << endl;
+		cout << "  Рекурсия верно " << resultRec << endl;
 		assert(resultIter == expected);
-		cout << "  Итеративно: " << resultIter << " ✓" << endl;
+		cout << "  Итеративно верно " << resultIter << endl;
 		DoneTests++;
 	}
 
@@ -53,9 +54,10 @@ void TestFen() {
 		long long resultRec = withRecursive(n);
 		long long resultIter = Iterative(n);
 		assert(resultRec == expected);
-		cout << "  Рекурсия: " << resultRec << " ✓" << endl;
+		cout << "n=1" << endl;
+		cout << "  Рекурсия верно " << resultRec << endl;
 		assert(resultIter == expected);
-		cout << "  Итеративно: " << resultIter << " ✓" << endl;
+		cout << "  Итеративно врено " << resultIter << endl;
 		DoneTests++;
 	}
 
@@ -66,9 +68,10 @@ void TestFen() {
 		long long resultRec = withRecursive(n);
 		long long resultIter = Iterative(n);
 		assert(resultRec == expected);
-		cout << "  Рекурсия: " << resultRec << " ✓" << endl;
+		cout << "n=5" << endl;
+		cout << "  Рекурсия верно " << resultRec << endl;
 		assert(resultIter == expected);
-		cout << "  Итеративно: " << resultIter << " ✓" << endl;
+		cout << "  Итеративно врено" << resultIter << endl;
 		DoneTests++;
 	}
 
@@ -79,9 +82,10 @@ void TestFen() {
 		long long resultRec = withRecursive(n);
 		long long resultIter = Iterative(n);
 		assert(resultRec == expected);
-		cout << "  Рекурсия: " << resultRec << " ✓" << endl;
+		cout << "n=10" << endl;
+		cout << "  Рекурсия верно " << resultRec << endl;
 		assert(resultIter == expected);
-		cout << "  Итеративно: " << resultIter << " ✓" << endl;
+		cout << "  Итеративно верно " << resultIter << endl;
 		DoneTests++;
 	}
 
@@ -91,7 +95,8 @@ void TestFen() {
 		long long resultRec = withRecursive(n);
 		long long resultIter = Iterative(n);
 		assert(resultRec == resultIter);
-		cout << "  Результаты совпадают ✓" << endl;
+		cout << "n=15" << endl;
+		cout << "  Результаты совпадают " << endl;
 		DoneTests++;
 	}
 }
