@@ -1,5 +1,6 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <chrono>
+#include <cassert>
 
 using namespace std;
 using namespace std::chrono;
@@ -27,16 +28,84 @@ long long Iterative(int n) {
 	return current;
 }
 
+void TestFen() {
+	cout << "РўРµСЃС‚РёСЂРѕРІР°РЅРёРµ : " << endl;
+	int AllTests = 5;
+	int DoneTests = 0;
+
+	{
+		//С‚РµСЃС‚ 1 - СЃС‚Р°РЅРґР°СЂС‚РЅС‹Р№
+		int n = 0;
+		long long expected = 0;
+		long long resultRec = withRecursive(n);
+		long long resultIter = Iterative(n);
+		assert(resultRec == expected); 
+		cout << "  Р РµРєСѓСЂСЃРёСЏ: " << resultRec << " вњ“" << endl;
+		assert(resultIter == expected);
+		cout << "  РС‚РµСЂР°С‚РёРІРЅРѕ: " << resultIter << " вњ“" << endl;
+		DoneTests++;
+	}
+
+	{
+		//С‚РµСЃС‚ 2 - СЃС‚РЅР°Р¶СЂР°С‚РЅС‹Р№ СЃР»СѓС‡Р°Р№
+		int n = 1;
+		long long expected = 1;
+		long long resultRec = withRecursive(n);
+		long long resultIter = Iterative(n);
+		assert(resultRec == expected);
+		cout << "  Р РµРєСѓСЂСЃРёСЏ: " << resultRec << " вњ“" << endl;
+		assert(resultIter == expected);
+		cout << "  РС‚РµСЂР°С‚РёРІРЅРѕ: " << resultIter << " вњ“" << endl;
+		DoneTests++;
+	}
+
+	{
+		//С‚РµСЃС‚ 3 
+		int n = 5;
+		long long expected = 5;
+		long long resultRec = withRecursive(n);
+		long long resultIter = Iterative(n);
+		assert(resultRec == expected);
+		cout << "  Р РµРєСѓСЂСЃРёСЏ: " << resultRec << " вњ“" << endl;
+		assert(resultIter == expected);
+		cout << "  РС‚РµСЂР°С‚РёРІРЅРѕ: " << resultIter << " вњ“" << endl;
+		DoneTests++;
+	}
+
+	{
+		//С‚РµСЃС‚ 4
+		int n = 10;
+		long long expected = 55;
+		long long resultRec = withRecursive(n);
+		long long resultIter = Iterative(n);
+		assert(resultRec == expected);
+		cout << "  Р РµРєСѓСЂСЃРёСЏ: " << resultRec << " вњ“" << endl;
+		assert(resultIter == expected);
+		cout << "  РС‚РµСЂР°С‚РёРІРЅРѕ: " << resultIter << " вњ“" << endl;
+		DoneTests++;
+	}
+
+	{
+		//С‚РµСЃС‚ 5
+		int n = 15;
+		long long resultRec = withRecursive(n);
+		long long resultIter = Iterative(n);
+		assert(resultRec == resultIter);
+		cout << "  Р РµР·СѓР»СЊС‚Р°С‚С‹ СЃРѕРІРїР°РґР°СЋС‚ вњ“" << endl;
+		DoneTests++;
+	}
+}
+
 void TimeComprasion(int n) {
-	cout << "Вычисление " << n << "-го числа Фибоначчи" << endl;
+	cout << "Р’С‹С‡РёСЃР»РµРЅРёРµ " << n << "-РіРѕ С‡РёСЃР»Р° Р¤РёР±РѕРЅР°С‡С‡Рё" << endl;
 	auto StartRec = high_resolution_clock::now();
 	long long ResultRec = withRecursive(n);
 	auto EndRec = high_resolution_clock::now();
 	auto DifferenceRec = duration_cast<milliseconds>(EndRec - StartRec).count();
 
-	cout << "Результат с рекурсией: " << endl;
+	cout << "Р РµР·СѓР»СЊС‚Р°С‚ СЃ СЂРµРєСѓСЂСЃРёРµР№: " << endl;
 	cout << ResultRec << endl;
-	cout << "Время : " << DifferenceRec << " мс" << endl;
+	cout << "Р’СЂРµРјСЏ : " << DifferenceRec << " РјСЃ" << endl;
 	cout << endl;
 
 
@@ -45,41 +114,52 @@ void TimeComprasion(int n) {
 	auto EndIter = high_resolution_clock::now();
 	auto DifIter = duration_cast<milliseconds>(EndIter - StartIter).count();
 
-	cout << "Результат бзе рекурсии, итеративно: " << endl;
+	cout << "Р РµР·СѓР»СЊС‚Р°С‚ Р±Р·Рµ СЂРµРєСѓСЂСЃРёРё, РёС‚РµСЂР°С‚РёРІРЅРѕ: " << endl;
 	cout << resultIter << endl;
-	cout << "Время: " << DifIter << endl;
+	cout << "Р’СЂРµРјСЏ: " << DifIter << endl;
 	cout << endl;
 
-	cout << "Сравнение: " << endl;//Реурсия всегда будет медленнее для чисел Фибоначчи
+	cout << "РЎСЂР°РІРЅРµРЅРёРµ: " << endl;//Р РµСѓСЂСЃРёСЏ РІСЃРµРіРґР° Р±СѓРґРµС‚ РјРµРґР»РµРЅРЅРµРµ РґР»СЏ С‡РёСЃРµР» Р¤РёР±РѕРЅР°С‡С‡Рё
 	if (DifferenceRec == 0 && DifIter == 0)
-		cout << "Обе версии выполнились мгновенно" << endl;
+		cout << "РћР±Рµ РІРµСЂСЃРёРё РІС‹РїРѕР»РЅРёР»РёСЃСЊ РјРіРЅРѕРІРµРЅРЅРѕ" << endl;
 	else if (DifIter == 0 && DifferenceRec > 0)
-		cout << "Рекурсия медленнее (итерация выполнилась мгновенно)" << endl;
-	else cout << "Рекурсия медленнее в " << DifferenceRec / DifIter << " раз" << endl;
+		cout << "Р РµРєСѓСЂСЃРёСЏ РјРµРґР»РµРЅРЅРµРµ (РёС‚РµСЂР°С†РёСЏ РІС‹РїРѕР»РЅРёР»Р°СЃСЊ РјРіРЅРѕРІРµРЅРЅРѕ)" << endl;
+	else cout << "Р РµРєСѓСЂСЃРёСЏ РјРµРґР»РµРЅРЅРµРµ РІ " << DifferenceRec / DifIter << " СЂР°Р·" << endl;
 }
 
 int main() {
 	setlocale(LC_ALL, "russian");
 	int n;
-	cout << "Введите номер числа Фибоначчи (n): ";
-	cin >> n;
 
-	if (n < 0) {
-		cout << "Ошибка! n должно быть больше или равно 0" << endl;
-		return 1;
-	}
+	int choice;
+	cout << "Р§С‚Рѕ С…РѕС‚РёС‚Рµ СЃРґРµР»Р°С‚СЊ? 1 - Р—Р°РїСѓСЃС‚РёС‚СЊ РїСЂРѕРіСЂР°РјРјСѓ, 2 - Р—Р°РїСѓСЃС‚РёС‚СЊ С‚РµСЃС‚С‹" << endl;
+	cin >> choice;
+	if (choice == 1) {
+		cout << "Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ С‡РёСЃР»Р° Р¤РёР±РѕРЅР°С‡С‡Рё (n): ";
+		cin >> n;
 
-	if (n > 40) {
-		cout << "ВНИМАНИЕ: При n > 40 рекурсивная версия может работать очень долго!" << endl;
-		cout << "Хотите продолжить? (1 - да, 0 - нет): ";
-		int choice;
-		cin >> choice;
-		if (choice == 0) {
-			cout << "Программа завершена!" << endl;
+		if (n < 0) {
+			cout << "РћС€РёР±РєР°! n РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ РёР»Рё СЂР°РІРЅРѕ 0" << endl;
 			return 1;
 		}
+
+		if (n > 40) {
+			cout << "Р’РќРРњРђРќРР•: РџСЂРё n > 40 СЂРµРєСѓСЂСЃРёРІРЅР°СЏ РІРµСЂСЃРёСЏ РјРѕР¶РµС‚ СЂР°Р±РѕС‚Р°С‚СЊ РѕС‡РµРЅСЊ РґРѕР»РіРѕ!" << endl;
+			cout << "РҐРѕС‚РёС‚Рµ РїСЂРѕРґРѕР»Р¶РёС‚СЊ? (1 - РґР°, 0 - РЅРµС‚): ";
+			int choice;
+			cin >> choice;
+			if (choice == 0) {
+				cout << "РџСЂРѕРіСЂР°РјРјР° Р·Р°РІРµСЂС€РµРЅР°!" << endl;
+				return 1;
+			}
+		}
+		TimeComprasion(n);
 	}
-	TimeComprasion(n);
+	else if (choice == 2) TestFen();
+	else {
+		cout << "РќРµРІРµСЂРЅС‹Р№ РІР°СЂРёР°РЅС‚!";
+		return 1;
+	}
 	return 0;
 }
 
