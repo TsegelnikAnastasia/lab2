@@ -48,7 +48,7 @@ void TestBubbleSort() {
 		bool ok;
 		for (int i = 0; i < size; i++)
 			assert(data[i] == expected[i]);
-			DoneTests++;
+		DoneTests++;
 	}
 	{
 		//тест 2 - один элемент
@@ -146,7 +146,7 @@ int main() {
 		cout << endl;
 		delete[]BinuryNum;
 
-		
+
 	}
 	else if (choice == 2) {
 		TestBubbleSort();
@@ -155,5 +155,5 @@ int main() {
 		cout << "Не существует такого варианта!";
 		return 1;
 	}
-return 0;
+	return 0;
 
