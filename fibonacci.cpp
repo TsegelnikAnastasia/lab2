@@ -2,6 +2,7 @@
 #include <chrono>
 
 using namespace std;
+using namespace std::chrono;
 
 long long withRecursive(int n) {
 	if (n <= 1) {
@@ -58,6 +59,7 @@ void TimeComprasion(int n) {
 }
 
 int main() {
+	setlocale(LC_ALL, "russian");
 	int n;
 	cout << "Введите номер числа Фибоначчи (n): ";
 	cin >> n;
@@ -80,3 +82,4 @@ int main() {
 	TimeComprasion(n);
 	return 0;
 }
+
