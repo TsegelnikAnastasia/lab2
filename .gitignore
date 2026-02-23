@@ -399,3 +399,7 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+fibonachitask/fibonachitask.sln
+fibonachitask/fibonachitask/fibonachitask.cpp
+fibonachitask/fibonachitask/fibonachitask.vcxproj.filters
+fibonachitask/fibonachitask/fibonachitask.vcxproj
