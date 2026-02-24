@@ -1,34 +1,91 @@
-/* Даны натуральное число n и вещественные числа
-d1, d2, …, d8. Верно ли, что произведение вещественных
-чисел больше n? */
+/* Р”Р°РЅС‹ РЅР°С‚СѓСЂР°Р»СЊРЅРѕРµ С‡РёСЃР»Рѕ n Рё РІРµС‰РµСЃС‚РІРµРЅРЅС‹Рµ С‡РёСЃР»Р° 
+d1, d2, вЂ¦, d8. Р’РµСЂРЅРѕ Р»Рё, С‡С‚Рѕ РїСЂРѕРёР·РІРµРґРµРЅРёРµ РІРµС‰РµСЃС‚РІРµРЅРЅС‹С…
+С‡РёСЃРµР» Р±РѕР»СЊС€Рµ n? */
 
 #include <iostream>
+#include <cassert>
 
 using namespace std;
 
+double calculateProd(double numbers[], int size) {
+	double Prod = 1.0;
+	for (int i = 0; i < size; i++) {
+		Prod *= numbers[i];
+	}
+	return Prod;
+}
+
+void Test1() {
+	double numbers[] = { 2,2,2,2,2,2,2,2 };
+	assert(calculateProd(numbers, 8) == 256);
+	cout << "РўРµСЃС‚ 1 РїСЂРѕР№РґРµРЅ СѓСЃРїРµС€РЅРѕ" << endl;
+}
+
+void Test2() {
+	double numbers[] = { 0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5 };
+	assert(calculateProd(numbers, 8) == 0.00390625);
+	cout << "С‚РµСЃС‚ 2 РїСЂРѕР№РґРµРЅ СѓСЃРїРµС€РЅРѕ" << endl;
+
+}
+
+void Test3() {
+	double numbers[] = { 0,5,5,5,1,1,1,1 };
+	assert(calculateProd(numbers, 8) == 0);
+	cout << "РўРµСЃС‚ 3 РїСЂРѕР№РґРµРЅ СѓСЃРїРµС€РЅРѕ" << endl;
+}
+
+void Test4() {
+	double numbers[] = { 2,4,2,2,4,2,2,2 };
+	assert(calculateProd(numbers, 8) > 1000);
+	assert((calculateProd(numbers, 8) > 3000) == false);
+	cout << "РўРµСЃС‚ 4 РїСЂРѕР№РґРµРЅ СѓСЃРїРµС€РЅРѕ" << endl;
+}
+
+void Test5() {
+	double numbers[] = { 1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0 };
+	assert(calculateProd(numbers, 8) == 1);
+	assert((calculateProd(numbers, 8) > 1) == false);
+	cout << "РўРµСЃС‚ 5 РїСЂРѕР№РґРµРЅ СѓСЃРїРµС€РЅРѕ" << endl;
+}
+
+void RunAllTest() {
+	Test1();
+	Test2();
+	Test3();
+	Test4();
+	Test5();
+	cout << "РІСЃРµ С‚РµСЃС‚С‹ РІС‹РїРѕР»РЅРµРЅС‹ СѓСЃРїРµС€РЅРѕ" << endl;
+}
+
 int main() {
 	setlocale(LC_ALL, "russian");
-
-	int n;
-	double d1, d2, d3, d4, d5, d6, d7, d8;
-	double composition;
-	cout << "Введите натуральоне число n " << endl;
-	cin >> n;
-	if (n < 1) {
-		cout << "Не натуралное число";
-		return 1;
+	int choice;
+	cout << "1 - РџСЂРѕРіСЂР°РјРјР°, 2 - РўРµСЃС‚С‹:";
+	cin >> choice;
+	if (choice == 2) {
+		RunAllTest();
+		return 0;
 	}
-	cout << "Введите вещетсвенные числа d1, d2, …, d8" << endl;
-	cin >> d1 >> d2 >> d3 >> d4 >> d5 >> d6 >> d7 >> d8;
-	composition = d1 * d2 * d3 * d4 * d5 * d6 * d7 * d8;
-	if (composition > n) {
-		cout << "Произведение больше натурального числа - верно" << endl;
-	}
-	else if (composition < n) {
-		cout << "произвдение меньше натурльного числа - неверно" << endl;
-	}
-	else cout << "равны - неверно " << endl;
+	else if (choice == 1) {
+		int n;
+		const int size = 8;
+		double numbers[size];
 
+		cout << "Р’РІРµРґРёС‚Рµ n" << endl;
+		cin >> n;
 
+		if (n < 1) {
+			cout << "РћС€РёР±РєР°: С‡РёСЃР»Рѕ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РЅР°С‚СѓСЂР°Р»СЊРЅС‹Рј (>= 1)" << endl;
+			return 1;
+		}
+		cout << "Р’РІРµРґРёС‚Рµ " << size << " РІРµС‰РµСЃС‚РІРµРЅРЅРЅС‹С… С‡РёСЃРµР»" << endl;
+		for (int i = 0; i < size; i++)
+			cin >> numbers[i];
+		double prod = calculateProd(numbers, size);
+		cout << "РџСЂРѕРёР·РІРµРґРµРЅРёРµ = " << prod << endl;
+		if (prod > n) cout << "Р’РµСЂРЅРѕ: РїСЂРѕРёР·РІРµРґРµРЅРёРµ Р±РѕР»СЊС€Рµ " << n << endl;
+		else cout << "РќРµРІРµСЂРЅРѕ: РїСЂРѕРёР·РІРµРґРµРЅРёРµ РЅРµ Р±РѕР»СЊС€Рµ " << n << endl;
+	}
+	else cout << "РЅРµРІРµСЂРЅС‹Р№ РІС‹Р±РѕСЂ" << endl;
 	return 0;
 }
