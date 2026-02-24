@@ -1,10 +1,6 @@
-/*(1)	Реализовать сортировку пузырьком для чисел в двоичной
-системе счисления. Т.е. вы сортируете массив строк вида
-['0b1100100', '0b100101', '0b100']. Префикс '0b' в строке
-обозначает, что число записано в двоичном представлении.*/
-
 #include <iostream>
 #include <string>
+#include <cassert>
 
 using namespace std;
 
@@ -14,8 +10,8 @@ int StrToInt(string binaryStr) {
 
 	for (int i = binaryStr.length() - 1; i >= 0; i--) {
 		if (binaryStr[i] == '1')
-			result += power;//если 1 - добавляем текущую степень двойки
-		power *= 2;//увеличиваемм степень
+			result += power;//ГҐГ±Г«ГЁ 1 - Г¤Г®ГЎГ ГўГ«ГїГҐГ¬ ГІГҐГЄГіГ№ГіГѕ Г±ГІГҐГЇГҐГ­Гј Г¤ГўГ®Г©ГЄГЁ
+		power *= 2;//ГіГўГҐГ«ГЁГ·ГЁГўГ ГҐГ¬Г¬ Г±ГІГҐГЇГҐГ­Гј
 	}
 	return result;
 }
@@ -23,10 +19,10 @@ int StrToInt(string binaryStr) {
 void BubbleSort(string* arr, int size) {
 	for (int i = 0; i < size - 1; i++) {
 		for (int j = 0; j < size - i - 1; j++) {
-			string first = arr[j].substr(2);//начиная с индекса 2
+			string first = arr[j].substr(2);//Г­Г Г·ГЁГ­Г Гї Г± ГЁГ­Г¤ГҐГЄГ±Г  2
 			string second = arr[j + 1].substr(2);
 
-			int NumFirst = StrToInt(first);//переводим в двочиное число
+			int NumFirst = StrToInt(first);//ГЇГҐГ°ГҐГўГ®Г¤ГЁГ¬ Гў Г¤ГўГ®Г·ГЁГ­Г®ГҐ Г·ГЁГ±Г«Г®
 			int NumSecond = StrToInt(second);
 
 			if (NumFirst > NumSecond) {
@@ -38,42 +34,126 @@ void BubbleSort(string* arr, int size) {
 	}
 }
 
+void TestBubbleSort() {
+	cout << "Г’ГҐГ±ГІГЁГ°Г®ГўГ Г­ГЁГҐ Г±Г®Г°ГІГЁГ°Г®ГўГЄГЁ: " << endl;
+	int AllTests = 5;
+	int DoneTests = 0;
+	{
+		//ГІГҐГ±ГІ 1 - Г®ГЎГ»Г·Г­Г»Г© Г±Г«ГіГ·Г Г©
+		string data[3] = { "0b1100100", "0b100101", "0b100" };
+		string expected[3] = { "0b100", "0b100101", "0b1100100" };
+		int size = 3;
+		BubbleSort(data, size);
+
+		bool ok;
+		for (int i = 0; i < size; i++)
+			assert(data[i] == expected[i]);
+		DoneTests++;
+	}
+	{
+		//ГІГҐГ±ГІ 2 - Г®Г¤ГЁГ­ ГЅГ«ГҐГ¬ГҐГ­ГІ
+		string data[1] = { "0b1010" };
+		string expected[1] = { "0b1010" };
+		int size = 1;
+		BubbleSort(data, size);
+		assert(data[0] == expected[0]);
+		DoneTests++;
+	}
+	{
+		//ГІГҐГ±ГІ 3 - ГіГ¦ГҐ Г®ГІГ±Г®Г°ГІГЁГ°Г®ГўГ Г­
+		string data[] = { "0b1", "0b10", "0b11" };
+		string expected[] = { "0b1", "0b10", "0b11" };
+		int size = 3;
+
+		BubbleSort(data, size);
+
+		for (int i = 0; i < size; i++) {
+			assert(data[i] == expected[i]);
+		}
+		DoneTests++;
+	}
+	{
+		//ГІГҐГ±ГІ 4 - Г®Г¤ГЁГ­Г ГЄГ®ГўГ»ГҐ Г·ГЁГ±Г«Г 
+		string data[] = { "0b101", "0b1", "0b101", "0b1" };
+		string expected[] = { "0b1", "0b1", "0b101", "0b101" };
+		int size = 4;
+
+		BubbleSort(data, size);
+
+		for (int i = 0; i < size; i++) {
+			assert(data[i] == expected[i]);
+		}
+		DoneTests++;
+	}
+	{
+		//ГІГҐГ±ГІ 5 - Г®ГЎГ°Г ГІГ­Г»Г© ГЇГ®Г°ГїГ¤Г®ГЄ
+		string data[] = { "0b111", "0b110", "0b101", "0b100" };
+		string expected[] = { "0b100", "0b101", "0b110", "0b111" };
+		int size = 4;
+
+		BubbleSort(data, size);
+
+		for (int i = 0; i < size; i++) {
+			assert(data[i] == expected[i]);
+		}
+		DoneTests++;
+	}
+	cout << "ГЏГ°Г®Г©Г¤ГҐГ­Г®: " << DoneTests << " ГЁГ§ " << AllTests << endl;
+}
+
+
 
 int main() {
 	setlocale(LC_ALL, "russian");
-	int count;
-	string* BinuryNum;
-	cout << "Сколько строк с двоичными числами хотит ввеести? " << endl;
-	cin >> count;
-	while (count < 1) {
-		cout << "Введите положительное число!" << endl;
+
+	int choice;
+	cout << "Г—ГІГ® ГµГ®ГІГЁГІГҐ Г±Г¤ГҐГ«Г ГІГј? 1 - Г‡Г ГЇГіГ±ГІГЁГІГј Г±Г®Г°ГІГЁГ°Г®ГўГЄГі, 2 - Г‡Г ГЇГіГ±ГІГЁГІГј ГІГҐГ±ГІГ» ";
+	cin >> choice;
+
+	if (choice == 1) {
+
+		int count;
+		string* BinuryNum;
+		cout << "Г‘ГЄГ®Г«ГјГЄГ® Г±ГІГ°Г®ГЄ Г± Г¤ГўГ®ГЁГ·Г­Г»Г¬ГЁ Г·ГЁГ±Г«Г Г¬ГЁ ГµГ®ГІГЁГІ ГўГўГҐГҐГ±ГІГЁ? " << endl;
 		cin >> count;
-	}
-	BinuryNum = new string[count];
-	cout << "Ввндите " << count << " cтрок в формате 0b1010 (с префиксом 0b):" << endl;
-	for (int i = 0; i < count; i++) {
-		cout << "Строка " << i + 1 << ":";
-		cin >> BinuryNum[i];
-
-		while (BinuryNum[i].length() < 2 || BinuryNum[i].substr(0, 2) != "0b") {
-			cout << "Ошибка! Строка должна начинаться с '0b'. Повторите ввод:";
-			cin >> BinuryNum[i];
+		while (count < 1) {
+			cout << "Г‚ГўГҐГ¤ГЁГІГҐ ГЇГ®Г«Г®Г¦ГЁГІГҐГ«ГјГ­Г®ГҐ Г·ГЁГ±Г«Г®!" << endl;
+			cin >> count;
 		}
+		BinuryNum = new string[count];
+		cout << "Г‚ГўГ­Г¤ГЁГІГҐ " << count << " cГІГ°Г®ГЄ Гў ГґГ®Г°Г¬Г ГІГҐ 0b1010 (Г± ГЇГ°ГҐГґГЁГЄГ±Г®Г¬ 0b):" << endl;
+		for (int i = 0; i < count; i++) {
+			cout << "Г‘ГІГ°Г®ГЄГ  " << i + 1 << ":";
+			cin >> BinuryNum[i];
+
+			while (BinuryNum[i].length() < 2 || BinuryNum[i].substr(0, 2) != "0b") {
+				cout << "ГЋГёГЁГЎГЄГ ! Г‘ГІГ°Г®ГЄГ  Г¤Г®Г«Г¦Г­Г  Г­Г Г·ГЁГ­Г ГІГјГ±Гї Г± '0b'. ГЏГ®ГўГІГ®Г°ГЁГІГҐ ГўГўГ®Г¤:";
+				cin >> BinuryNum[i];
+			}
+		}
+		cout << endl;
+		cout << "Г‚Г» ГўГўГҐГ«ГЁ:" << endl;
+		for (int i = 0; i < count; i++) {
+			cout << BinuryNum[i] << " ";
+		}
+		cout << endl;
+
+		BubbleSort(BinuryNum, count);
+
+		cout << "ГЏГ®Г±Г«ГҐ Г±Г®Г®Г°ГІГЁГ°Г®ГўГЄГЁ Г®ГЇ ГўГ®Г§Г°Г Г±ГІГ Г­ГЁГѕ: " << endl;
+		for (int i = 0; i < count; i++)
+			cout << BinuryNum[i] << " ";
+		cout << endl;
+		delete[]BinuryNum;
+
+
 	}
-	cout << endl;
-	cout << "Вы ввели:" << endl;
-	for (int i = 0; i < count; i++) {
-		cout << BinuryNum[i] << " ";
+	else if (choice == 2) {
+		TestBubbleSort();
 	}
-	cout << endl;
-
-	BubbleSort(BinuryNum, count);
-
-	cout << "После соортировки оп возрастанию: " << endl;
-	for (int i = 0; i < count; i++)
-		cout << BinuryNum[i] << " ";
-	cout << endl;
-	delete[]BinuryNum;
-
+	else {
+		cout << "ГЌГҐ Г±ГіГ№ГҐГ±ГІГўГіГҐГІ ГІГ ГЄГ®ГЈГ® ГўГ Г°ГЁГ Г­ГІГ !";
+		return 1;
+	}
 	return 0;
 }
