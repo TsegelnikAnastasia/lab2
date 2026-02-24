@@ -1,160 +1,169 @@
-#include <iostream>
-#include <string>
+﻿#include <iostream>
+#include <chrono>
 #include <cassert>
 
 using namespace std;
+using namespace std::chrono;
 
-int StrToInt(string binaryStr) {
-	int result = 0;
-	int power = 1;
-
-	for (int i = binaryStr.length() - 1; i >= 0; i--) {
-		if (binaryStr[i] == '1')
-			result += power;//åñëè 1 - äîáàâëÿåì òåêóùóþ ñòåïåíü äâîéêè
-		power *= 2;//óâåëè÷èâàåìì ñòåïåíü
+long long withRecursive(int n) {
+	if (n <= 1) {
+		return n;
 	}
-	return result;
+	return withRecursive(n - 1) + withRecursive(n - 2);
 }
 
-void BubbleSort(string* arr, int size) {
-	for (int i = 0; i < size - 1; i++) {
-		for (int j = 0; j < size - i - 1; j++) {
-			string first = arr[j].substr(2);//íà÷èíàÿ ñ èíäåêñà 2
-			string second = arr[j + 1].substr(2);
-
-			int NumFirst = StrToInt(first);//ïåðåâîäèì â äâî÷èíîå ÷èñëî
-			int NumSecond = StrToInt(second);
-
-			if (NumFirst > NumSecond) {
-				string temp = arr[j];
-				arr[j] = arr[j + 1];
-				arr[j + 1] = temp;
-			}
-		}
+long long Iterative(int n) {
+	if (n <= 1) {
+		return n;
 	}
+	long long ago2Step = 0;
+	long long ago1Step = 1;
+	long long current = 0;
+
+	for (int i = 2; i <= n; i++) {
+		current = ago2Step + ago1Step;
+		ago2Step = ago1Step;
+		ago1Step = current;
+	}
+	return current;
 }
 
-void TestBubbleSort() {
-	cout << "Òåñòèðîâàíèå ñîðòèðîâêè: " << endl;
+void TestFen() {
+	cout << "Тестирование : " << endl;
 	int AllTests = 5;
 	int DoneTests = 0;
-	{
-		//òåñò 1 - îáû÷íûé ñëó÷àé
-		string data[3] = { "0b1100100", "0b100101", "0b100" };
-		string expected[3] = { "0b100", "0b100101", "0b1100100" };
-		int size = 3;
-		BubbleSort(data, size);
 
-		bool ok;
-		for (int i = 0; i < size; i++)
-			assert(data[i] == expected[i]);
+	{
+		//тест 1 - стандартный
+		int n = 0;
+		long long expected = 0;
+		long long resultRec = withRecursive(n);
+		long long resultIter = Iterative(n);
+		assert(resultRec == expected);
+		cout << "n=0" << endl;
+		cout << "  Рекурсия верно " << resultRec << endl;
+		assert(resultIter == expected);
+		cout << "  Итеративно верно " << resultIter << endl;
 		DoneTests++;
 	}
+
 	{
-		//òåñò 2 - îäèí ýëåìåíò
-		string data[1] = { "0b1010" };
-		string expected[1] = { "0b1010" };
-		int size = 1;
-		BubbleSort(data, size);
-		assert(data[0] == expected[0]);
+		//тест 2 - стнажратный случай
+		int n = 1;
+		long long expected = 1;
+		long long resultRec = withRecursive(n);
+		long long resultIter = Iterative(n);
+		assert(resultRec == expected);
+		cout << "n=1" << endl;
+		cout << "  Рекурсия верно " << resultRec << endl;
+		assert(resultIter == expected);
+		cout << "  Итеративно врено " << resultIter << endl;
 		DoneTests++;
 	}
+
 	{
-		//òåñò 3 - óæå îòñîðòèðîâàí
-		string data[] = { "0b1", "0b10", "0b11" };
-		string expected[] = { "0b1", "0b10", "0b11" };
-		int size = 3;
-
-		BubbleSort(data, size);
-
-		for (int i = 0; i < size; i++) {
-			assert(data[i] == expected[i]);
-		}
+		//тест 3 
+		int n = 5;
+		long long expected = 5;
+		long long resultRec = withRecursive(n);
+		long long resultIter = Iterative(n);
+		assert(resultRec == expected);
+		cout << "n=5" << endl;
+		cout << "  Рекурсия верно " << resultRec << endl;
+		assert(resultIter == expected);
+		cout << "  Итеративно врено" << resultIter << endl;
 		DoneTests++;
 	}
+
 	{
-		//òåñò 4 - îäèíàêîâûå ÷èñëà
-		string data[] = { "0b101", "0b1", "0b101", "0b1" };
-		string expected[] = { "0b1", "0b1", "0b101", "0b101" };
-		int size = 4;
-
-		BubbleSort(data, size);
-
-		for (int i = 0; i < size; i++) {
-			assert(data[i] == expected[i]);
-		}
+		//тест 4
+		int n = 10;
+		long long expected = 55;
+		long long resultRec = withRecursive(n);
+		long long resultIter = Iterative(n);
+		assert(resultRec == expected);
+		cout << "n=10" << endl;
+		cout << "  Рекурсия верно " << resultRec << endl;
+		assert(resultIter == expected);
+		cout << "  Итеративно верно " << resultIter << endl;
 		DoneTests++;
 	}
+
 	{
-		//òåñò 5 - îáðàòíûé ïîðÿäîê
-		string data[] = { "0b111", "0b110", "0b101", "0b100" };
-		string expected[] = { "0b100", "0b101", "0b110", "0b111" };
-		int size = 4;
-
-		BubbleSort(data, size);
-
-		for (int i = 0; i < size; i++) {
-			assert(data[i] == expected[i]);
-		}
+		//тест 5
+		int n = 15;
+		long long resultRec = withRecursive(n);
+		long long resultIter = Iterative(n);
+		assert(resultRec == resultIter);
+		cout << "n=15" << endl;
+		cout << "  Результаты совпадают " << endl;
 		DoneTests++;
 	}
-	cout << "Ïðîéäåíî: " << DoneTests << " èç " << AllTests << endl;
 }
 
+void TimeComprasion(int n) {
+	cout << "Вычисление " << n << "-го числа Фибоначчи" << endl;
+	auto StartRec = high_resolution_clock::now();
+	long long ResultRec = withRecursive(n);
+	auto EndRec = high_resolution_clock::now();
+	auto DifferenceRec = duration_cast<milliseconds>(EndRec - StartRec).count();
 
+	cout << "Результат с рекурсией: " << endl;
+	cout << ResultRec << endl;
+	cout << "Время : " << DifferenceRec << " мс" << endl;
+	cout << endl;
+
+
+	auto StartIter = high_resolution_clock::now();
+	long long resultIter = Iterative(n);
+	auto EndIter = high_resolution_clock::now();
+	auto DifIter = duration_cast<milliseconds>(EndIter - StartIter).count();
+
+	cout << "Результат бзе рекурсии, итеративно: " << endl;
+	cout << resultIter << endl;
+	cout << "Время: " << DifIter << endl;
+	cout << endl;
+
+	cout << "Сравнение: " << endl;//Реурсия всегда будет медленнее для чисел Фибоначчи
+	if (DifferenceRec == 0 && DifIter == 0)
+		cout << "Обе версии выполнились мгновенно" << endl;
+	else if (DifIter == 0 && DifferenceRec > 0)
+		cout << "Рекурсия медленнее (итерация выполнилась мгновенно)" << endl;
+	else cout << "Рекурсия медленнее в " << DifferenceRec / DifIter << " раз" << endl;
+}
 
 int main() {
 	setlocale(LC_ALL, "russian");
+	int n;
 
 	int choice;
-	cout << "×òî õîòèòå ñäåëàòü? 1 - Çàïóñòèòü ñîðòèðîâêó, 2 - Çàïóñòèòü òåñòû ";
+	cout << "Что хотите сделать? 1 - Запустить программу, 2 - Запустить тесты" << endl;
 	cin >> choice;
-
 	if (choice == 1) {
+		cout << "Введите номер числа Фибоначчи (n): ";
+		cin >> n;
 
-		int count;
-		string* BinuryNum;
-		cout << "Ñêîëüêî ñòðîê ñ äâîè÷íûìè ÷èñëàìè õîòèò ââååñòè? " << endl;
-		cin >> count;
-		while (count < 1) {
-			cout << "Ââåäèòå ïîëîæèòåëüíîå ÷èñëî!" << endl;
-			cin >> count;
+		if (n < 0) {
+			cout << "Ошибка! n должно быть больше или равно 0" << endl;
+			return 1;
 		}
-		BinuryNum = new string[count];
-		cout << "Ââíäèòå " << count << " còðîê â ôîðìàòå 0b1010 (ñ ïðåôèêñîì 0b):" << endl;
-		for (int i = 0; i < count; i++) {
-			cout << "Ñòðîêà " << i + 1 << ":";
-			cin >> BinuryNum[i];
 
-			while (BinuryNum[i].length() < 2 || BinuryNum[i].substr(0, 2) != "0b") {
-				cout << "Îøèáêà! Ñòðîêà äîëæíà íà÷èíàòüñÿ ñ '0b'. Ïîâòîðèòå ââîä:";
-				cin >> BinuryNum[i];
+		if (n > 40) {
+			cout << "ВНИМАНИЕ: При n > 40 рекурсивная версия может работать очень долго!" << endl;
+			cout << "Хотите продолжить? (1 - да, 0 - нет): ";
+			int choice;
+			cin >> choice;
+			if (choice == 0) {
+				cout << "Программа завершена!" << endl;
+				return 1;
 			}
 		}
-		cout << endl;
-		cout << "Âû ââåëè:" << endl;
-		for (int i = 0; i < count; i++) {
-			cout << BinuryNum[i] << " ";
-		}
-		cout << endl;
-
-		BubbleSort(BinuryNum, count);
-
-		cout << "Ïîñëå ñîîðòèðîâêè îï âîçðàñòàíèþ: " << endl;
-		for (int i = 0; i < count; i++)
-			cout << BinuryNum[i] << " ";
-		cout << endl;
-		delete[]BinuryNum;
-
-
+		TimeComprasion(n);
 	}
-	else if (choice == 2) {
-		TestBubbleSort();
-	}
+	else if (choice == 2) TestFen();
 	else {
-		cout << "Íå ñóùåñòâóåò òàêîãî âàðèàíòà!";
+		cout << "Неверный вариант!";
 		return 1;
 	}
 	return 0;
 }
-
